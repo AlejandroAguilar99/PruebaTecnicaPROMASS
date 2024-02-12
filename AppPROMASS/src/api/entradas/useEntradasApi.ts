@@ -10,12 +10,13 @@ export const useEntradasApi = () => {
     // Methods
     const getEntradas = () => http.api.get<Entradas[]>(`entrada_controller.php?op=getEntradas`);
 
-    const insertEntrada = (titulo: string,autor:string,fecha:string,contenido:string) => http.api.post(`entrada_controller.php?op=insertEntrada`,{
-        titulo,
-        autor,
-        fecha,
-        contenido
-    });
+    const insertEntrada = (titulo: string, autor: string, fecha: string, contenido: string) =>
+        http.api.post(`entrada_controller.php?op=insertEntrada`, {
+            titulo,
+            autor,
+            fecha,
+            contenido
+        });
 
     return {
         getEntradas,

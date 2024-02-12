@@ -19,7 +19,7 @@ export const useStoreMethods = () => {
                 // value previously stored
                 return value;
             }
-            return '';
+            return null;
         } catch (e) {
             console.log('No fue posible obtener el nombre');
         }

@@ -8,10 +8,12 @@ import { InputModal } from './components/InputModal'
 import { useForm } from '../../app/hooks/useForm'
 import { LabelText } from '../../app/components/text/LabelText'
 import { useStoreMethods } from '../root/hooks/useStoreMethods'
+import { useOfflineMethods } from '../blog/shared/hooks/useOfflineMethods'
 
 export const SettingsScreen = () => {
   //Hooks
   const { getAutorName, storeAutorName } = useStoreMethods();
+  const { clearEntradas } = useOfflineMethods();
   //State
   const form = useForm({
     showEditName: false,
@@ -28,7 +30,7 @@ export const SettingsScreen = () => {
     (name != null) && form.setField('name', name);
   }
 
-  const onConfirm = async (value:string) => {
+  const onConfirm = async (value: string) => {
     await storeAutorName(value);
     form.setField('showEditName', false)
   }
@@ -47,7 +49,11 @@ export const SettingsScreen = () => {
           onPress={() => form.setField('showEditName', true)}
         />
       </View>
-      <BasicButton title='Borrar entradas guardadas' style={{ container: sty.deleteBtn, title: { color: Colors.text } }} />
+      <BasicButton
+        title='Borrar entradas guardadas'
+        onPress={clearEntradas}
+        style={{ container: sty.deleteBtn, title: { color: Colors.text } }}
+      />
       <InputModal
         show={form.values.showEditName}
         title='Editar nombre de autor'

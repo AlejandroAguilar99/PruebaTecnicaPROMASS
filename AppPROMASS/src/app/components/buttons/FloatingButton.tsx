@@ -4,13 +4,20 @@ import { FontAwesomeIcon } from '../icons/FontAwesomeIcon'
 import { Colors } from '../../styles/Colors'
 
 interface Props {
+    icon?: string;
+    disabled?: boolean;
     onPress: () => void;
 }
 
-export const FloatingButton = ({ onPress }: Props) => {
+export const FloatingButton = ({
+    icon = 'plus',
+    disabled,
+    onPress
+}: Props) => {
     //Component
     return (
         <TouchableOpacity
+            disabled={disabled}
             style={{
                 borderWidth: 1,
                 alignItems: 'center',
@@ -25,7 +32,7 @@ export const FloatingButton = ({ onPress }: Props) => {
             }}
             onPress={onPress}
         >
-            <FontAwesomeIcon name='plus' size={30} color={Colors.secondary} />
+            <FontAwesomeIcon name={icon} size={30} color={Colors.secondary} />
         </TouchableOpacity>
     )
 }

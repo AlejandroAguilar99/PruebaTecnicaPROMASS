@@ -4,6 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StackNavigator } from './src/routes/StackNavigator';
 import { Provider } from 'react-redux';
 import { store } from './src/modules/root/context/store';
+import Toast from 'react-native-toast-message';
 
 function App(): React.JSX.Element {
 
@@ -12,6 +13,7 @@ function App(): React.JSX.Element {
       <SafeAreaProvider>
         <NavigationContainer>
           <StackNavigator />
+          <Toast />
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>

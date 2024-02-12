@@ -10,23 +10,29 @@ import { useForm } from '../../../app/hooks/useForm'
 import { BlogCard } from './components/BlogCard'
 import { Entradas } from '../../../api/entradas/interface/Entradas.interfaces'
 import { useBlogGetters } from '../context/useBlogGetters'
+import NetInfo from '@react-native-community/netinfo';
+import Toast from 'react-native-toast-message'
+import { useOfflineMethods } from '../shared/hooks/useOfflineMethods'
 
 interface Form {
   data: Entradas[];
   dataFiltered: Entradas[];
   isLoading: boolean;
+  connected: boolean;
 }
 
 export const BlogScreen = () => {
   //Hooks
   const navigation = useNavigation<StackNavigation>();
   const { getEntradas } = useBlog();
+  const offline = useOfflineMethods();
   const { filterSelected } = useBlogGetters();
   //State
   const form = useForm<Form>({
     data: [],
     dataFiltered: [],
     isLoading: true,
+    connected: true,
   });
 
   //Methods
@@ -34,19 +40,38 @@ export const BlogScreen = () => {
     navigation.addListener('focus', () => {
       onLoad();
     });
+
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      form.setField('connected', state.isInternetReachable!);
+    })
+
+    return () => unsubscribe();
   }, []);
+
 
   const onLoad = async () => {
     form.setField('isLoading', true);
-    try {
-      const data = await getEntradas();
+    if (form.values.connected) {
+      try {
+        const data = await getEntradas();
+        form.set({
+          data,
+          dataFiltered: data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const data = await offline.getEntradas();
       form.set({
         data,
         dataFiltered: data,
-        isLoading: false,
       });
-    } catch (error) {
-      console.log(error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'No tiene conexión a internet'
+      })
     }
     form.setField('isLoading', false);
   }
@@ -99,7 +124,7 @@ export const BlogScreen = () => {
         onRefresh={onLoad}
         renderCard={({ item }) => <BlogCard item={item} />}
       />
-      <FloatingButton onPress={onPressAdd} />
+      <FloatingButton onPress={onPressAdd} disabled={!form.values.connected} />
     </ViewContainer>
   )
 }

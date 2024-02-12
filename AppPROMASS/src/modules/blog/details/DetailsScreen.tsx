@@ -1,6 +1,6 @@
 import React from 'react'
 import { ViewContainer } from '../../../app/components/layouts/ViewContainer'
-import { StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { StackParamList } from '../../../routes/StackNavigator'
 import { LabelText } from '../../../app/components/text/LabelText'
@@ -8,11 +8,14 @@ import { Colors } from '../../../app/styles/Colors'
 import { CardSection } from '../shared/components/CardSection'
 import dayjs from 'dayjs'
 import { globalSty } from '../../../app/styles/GlobalStyles'
+import { FloatingButton } from '../../../app/components/buttons/FloatingButton'
+import { useOfflineMethods } from '../shared/hooks/useOfflineMethods';
 
 interface Props extends StackScreenProps<StackParamList, 'Details'> { };
 
 export const DetailsScreen = ({ route }: Props) => {
     //Hooks
+    const { saveEntrada } = useOfflineMethods();
     //Computed
     const { item } = route.params;
     //Methods
@@ -20,7 +23,7 @@ export const DetailsScreen = ({ route }: Props) => {
     //Component
     return (
         <ViewContainer title={item.Titulo} goBack>
-            <View style={sty.container}>
+            <ScrollView style={sty.container}>
                 <CardSection
                     icon='calendar'
                     title={dayjs(item.Fecha).format('DD/MM/YYYY')}
@@ -37,7 +40,11 @@ export const DetailsScreen = ({ route }: Props) => {
                     color={Colors.inputText}
                     style={sty.content}
                 />
-            </View>
+            </ScrollView>
+            <FloatingButton
+                onPress={() => saveEntrada(item)}
+                icon='save'
+            />
         </ViewContainer>
     )
 }

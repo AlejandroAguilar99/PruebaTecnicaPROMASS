@@ -20,7 +20,7 @@ export const HomeScreen = () => {
 
     const onLoad = async () => {
         const name = await getAutorName();
-        (name != null || name != '') ? navigation.navigate('Blog') : navigation.navigate('Login');
+        (name !== null) ? navigation.navigate('Blog') : navigation.navigate('Login');
     }
     return (
         <View style={globalSty.flex}>
