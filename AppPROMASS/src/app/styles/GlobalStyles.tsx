@@ -11,7 +11,7 @@ export const globalSty = StyleSheet.create({
         marginBottom: 4,
     },
     separator:{
-        borderColor: Colors.secondary,
+        borderColor: Colors.primary,
         borderTopWidth: 1,
         marginVertical: 20,
     },

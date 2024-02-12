@@ -9,13 +9,23 @@ import { LabelText } from '../../../app/components/text/LabelText'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigation } from '../../../routes/StackNavigator'
 import { TxtInput } from '../../../app/components/inputs/TxtInput'
+import { useStoreMethods } from '../../root/hooks/useStoreMethods'
 
 export const InputsSection = () => {
     //Hooks
     const navigation = useNavigation<StackNavigation>();
+    const { storeAutorName } = useStoreMethods();
+
     //State
     const [text, onChangeText] = useState('');
 
+    //Methods
+    const onSaveName = async () => {
+        await storeAutorName(text);
+        navigation.navigate('Blog')
+    }
+
+    //Component
     return (
         <View style={sty.container}>
             <View style={sty.content}>
@@ -32,7 +42,7 @@ export const InputsSection = () => {
             <View >
                 <BasicButton
                     title='Empezar'
-                    onPress={() => navigation.navigate('Blog')}
+                    onPress={onSaveName}
                 />
                 <TextButton
                     title='Ingresar sin nombre de autor'

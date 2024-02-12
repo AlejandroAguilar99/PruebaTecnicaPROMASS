@@ -22,4 +22,5 @@ export class Colors {
     static dark = '#343a40';
     static gray = '#6c6d74';
     static disabled = '#A7ADAD';
+    static lightYellow = '#fcffd9';
 }

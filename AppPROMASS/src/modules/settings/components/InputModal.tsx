@@ -66,13 +66,15 @@ export const InputModal = ({
             <ScrollView keyboardShouldPersistTaps="handled">
                 <View>
                     <LabelText
-                        value='Cambiar nombre de autor'
+                        value={title}
                         bold
+                        style={{textAlign:'center'}}
                     />
                     <TxtInput
                         value={form.values.text}
                         onChangeValue={(value) => form.setField('text', value)}
                         placeholder={placeholder}
+                        style={{textAlign:'center'}}
                     />
                     <ShowCmp value={form.values.error}>
                         <Text style={sty.inputError}>{form.values.error}</Text>
